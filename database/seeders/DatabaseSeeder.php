@@ -28,14 +28,15 @@ class DatabaseSeeder extends Seeder
             RelationshipSeeder::class,
 
             // School Module
+            SchoolRoleAndPermissionSeeder::class,
             SchoolSeeder::class,
             ClassLevelSeeder::class,
             ClassroomSeeder::class,
             StudentSeeder::class,
             GuardianSeeder::class,
 
-
             // PIBG Module
+            PibgRoleAndPermissionSeeder::class,
             PibgSeeder::class,
             PibgMemberSeeder::class,
             PibgCommitteeSeeder::class,
