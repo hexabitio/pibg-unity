@@ -25,7 +25,7 @@ class SchoolRoleAndPermissionSeeder extends Seeder
         $schoolDeletePermission = Permission::create(['name' => 'delete-school']);
 
         // create School Admin roles and assign created permissions
-        $schoolAdmin = Role::create(['name' => 'PIBG Admin']);
+        $schoolAdmin = Role::create(['name' => 'School Admin']);
         $schoolAdmin->givePermissionTo($schoolListPermission);
         $schoolAdmin->givePermissionTo($schoolCreatePermission);
         $schoolAdmin->givePermissionTo($schoolReadPermission);
@@ -33,7 +33,7 @@ class SchoolRoleAndPermissionSeeder extends Seeder
         $schoolAdmin->givePermissionTo($schoolDeletePermission);
 
         // create School Manager roles and assign created permissions
-        $schoolManager = Role::create(['name' => 'PIBG Manager']);
+        $schoolManager = Role::create(['name' => 'School Manager']);
         $schoolManager->givePermissionTo($schoolListPermission);
         $schoolManager->givePermissionTo($schoolCreatePermission);
         $schoolManager->givePermissionTo($schoolReadPermission);
