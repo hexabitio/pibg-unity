@@ -28,5 +28,5 @@ yarn-error.log
 # Mac OSX
 .DS_Store
 
-# IDE
-.vscode/
+# Data
+/database/unity.sqlite
