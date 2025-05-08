@@ -1,4 +1,32 @@
 services:
+  mariadb:
+    image: mariadb:lts-noble
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    env_file:
+      - .env
+    environment:
+      - MARIADB_ROOT_PASSWORD=${DB_PASSWORD}
+      - MARIADB_DATABASE=${DB_DATABASE}
+      - MARIADB_USER=${DB_USERNAME}
+      - MARIADB_PASSWORD=${DB_PASSWORD}
+      - TZ="Asia/Kuala_Lumpur"
+    volumes:
+      - unity-dev-data:/var/lib/mysql
+    networks:
+      - unity-dev-net
+    # Health check for PostgreSQL
+    # -----------------------------------------------------------
+    # Health checks allow Docker to determine if a service is operational.
+    # The 'pg_isready' command checks if PostgreSQL is ready to accept connections.
+    # This prevents dependent services from starting before the database is ready.
+    # -----------------------------------------------------------
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   web:
     image: nginx:latest # Using the default Nginx image with custom configuration.
     volumes:
@@ -69,35 +97,6 @@ services:
       - ./:/var/www
     networks:
       - unity-dev-net
-
-  mariadb:
-    image: mariadb:lts-noble
-    restart: unless-stopped
-    ports:
-      - "${DB_PORT:-3306}:3306"
-    env_file:
-      - .env
-    environment:
-      - MARIADB_ROOT_PASSWORD:${DB_PASSWORD}
-      - MARIADB_DATABASE=${DB_DATABASE}
-      - MARIADB_USER=${DB_USERNAME}
-      - MARIADB_PASSWORD=${DB_PASSWORD}
-      - TZ="Asia/Kuala_Lumpur"
-    volumes:
-      - unity-dev-data:/var/lib/mysql
-    networks:
-      - unity-dev-net
-    # Health check for PostgreSQL
-    # -----------------------------------------------------------
-    # Health checks allow Docker to determine if a service is operational.
-    # The 'pg_isready' command checks if PostgreSQL is ready to accept connections.
-    # This prevents dependent services from starting before the database is ready.
-    # -----------------------------------------------------------
-    healthcheck:
-      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   redis:
     image: redis:alpine

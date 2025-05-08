@@ -18,6 +18,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcurl4-openssl-dev \
     libicu-dev \
     libzip-dev \
+    libxrender1 \
+    wkhtmltopdf \
     && docker-php-ext-install -j$(nproc) \
     pdo_mysql \
     mysqli \
@@ -48,14 +50,14 @@ RUN if [ "${XDEBUG_ENABLED}" = "true" ]; then \
     echo "xdebug.log_level=${XDEBUG_LOG_LEVEL}" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
     echo "xdebug.client_host=${XDEBUG_HOST}" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini ; \
     echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini ; \
-fi
+    fi
 
 # If the group already exists, use it; otherwise, create the 'www' group
 RUN if getent group ${GID}; then \
-      useradd -m -u ${UID} -g ${GID} -s /bin/bash www; \
+    useradd -m -u ${UID} -g ${GID} -s /bin/bash www; \
     else \
-      groupadd -g ${GID} www && \
-      useradd -m -u ${UID} -g www -s /bin/bash www; \
+    groupadd -g ${GID} www && \
+    useradd -m -u ${UID} -g www -s /bin/bash www; \
     fi && \
     usermod -aG sudo www && \
     echo 'www ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
