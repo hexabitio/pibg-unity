@@ -15,3 +15,10 @@ cp database/database.sqlite database/unity.sqlite
 ```bash
 docker compose -f compose.dev.yaml up --build -d
 ```
+
+2. Use workspace containers to run migrations, seeds, and other artisan commands.
+
+```bash
+docker exec -it pibg-unity_workspace_1 php artisan migrate
+docker exec -it pibg-unity_workspace_1 php artisan db:seed
+```

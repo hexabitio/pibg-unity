@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'PIBG Unity Super Admin',
             'email' => 'admin.unity@sekolah.io',
+            'password' => bcrypt('Unity1234567890'),
         ]);
     }
 }
